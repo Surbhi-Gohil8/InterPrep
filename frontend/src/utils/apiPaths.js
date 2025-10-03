@@ -1,4 +1,4 @@
-export const BASE_URL = "https://interprep-backend-eqf6.onrender.com";
+export const BASE_URL = import.meta.env.VITE_API_URL || "https://interprep-backend-eqf6.onrender.com";
 
 export const API_PATHS = {
   AUTH: {

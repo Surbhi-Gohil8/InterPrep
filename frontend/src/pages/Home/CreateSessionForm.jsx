@@ -35,12 +35,16 @@ const handleCreateSession = async (e) => {
 
   try {
     // 1️⃣ Generate questions using AI
-    const aiResponse = await axiosInstance.post(API_PATHS.AI.GENERATE_QUESTIONS, {
-      role,
-      experience,
-      topicsToFocus,
-      numberOfQuestions: 10,
-    });
+    const aiResponse = await axiosInstance.post(
+      API_PATHS.AI.GENERATE_QUESTIONS,
+      {
+        role,
+        experience,
+        topicsToFocus,
+        numberOfQuestions: 10,
+      },
+      { timeout: 120000 }
+    );
 
     // Ensure correct format
     const generatedQuestions = aiResponse.data?.questions || [];

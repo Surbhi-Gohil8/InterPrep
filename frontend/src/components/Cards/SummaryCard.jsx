@@ -48,6 +48,7 @@ const SummaryCard = ({
 
         {/* Delete button (appears on hover) */}
         <button
+        
           className="hidden group-hover:flex items-center gap-2 text-xs text-rose-600 font-medium bg-rose-50 px-3 py-1 rounded text-nowrap border border-rose-200 hover:border-rose-300 cursor-pointer absolute top-2 right-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
           onClick={(e) => {
             e.stopPropagation();
