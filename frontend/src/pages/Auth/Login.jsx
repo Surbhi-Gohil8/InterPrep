@@ -1,4 +1,4 @@
-import React, { useState,useContext } from 'react'
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Input from '../../components/Inputs/Input'; 
 import { validateEmail } from '../../utils/helper';
@@ -9,97 +9,98 @@ import { toast } from 'react-hot-toast';
 
 const Login = ({ setCurrentPage }) => {
   const [email, setEmail] = useState("");
-  const [password, setpassword] = useState("");
-  const [error, seterror] = useState(null);
-  const {updateUser} = useContext(UserContext);
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+  const { updateUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
-    e.preventDefault()
-    if(!validateEmail(email)){
-      seterror("Please enter a valid email address")
-      toast.error('Please enter a valid email address')
+    e.preventDefault();
+    if (!validateEmail(email)) {
+      setError("Please enter a valid email address");
+      toast.error('Please enter a valid email address');
       return;
     }
-    if(!password){
-      seterror("please enter the password");
-      toast.error('Please enter your password')
+    if (!password) {
+      setError("Please enter the password");
+      toast.error('Please enter your password');
       return;
     }
-    seterror("");
+    setError("");
 
-    //Login api call
     try {
       const response = await axiosInstance.post(API_PATHS.AUTH.LOGIN, {
-  email,
-  password,
-});
+        email,
+        password,
+      });
 
-const { token } = response.data;
+      const { token } = response.data;
 
-if (token) {
-  localStorage.setItem("token", token);
-  await updateUser(token);
-  toast.success('Logged in successfully')
-  navigate("/dashboard");
-}
+      if (token) {
+        localStorage.setItem("token", token);
+        await updateUser(token);
+        toast.success('Logged in successfully');
+        navigate("/dashboard");
+      }
     } catch (error) {
-      if(error.response && error.response.data.message){
-        seterror(error.response.data.message)
-        toast.error(error.response.data.message)
-      }else{
-        seterror("Something went wrong. Please try again");
-        toast.error('Something went wrong. Please try again')
+      if (error.response && error.response.data.message) {
+        setError(error.response.data.message);
+        toast.error(error.response.data.message);
+      } else {
+        setError("Something went wrong. Please try again");
+        toast.error('Something went wrong. Please try again');
       }
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-white to-blue-200">
-      <div className="w-[90vw] md:w-[33vw] p-8 flex flex-col justify-center bg-white rounded-2xl shadow-2xl">
-        <h3 className="text-2xl font-bold text-gray-800 text-center">Welcome Back 👋</h3>
-        <p className="text-sm text-gray-600 mt-2 mb-8 text-center">
-          Please enter your details to log in
-        </p>
+<div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-b from-white to-orange-200">
+  <div className="w-[90vw] md:w-[35vw] p-8 flex flex-col justify-center bg-white rounded-3xl shadow-2xl shadow-orange-300/40">
+    <h3 className="text-2xl font-bold text-gray-800 text-center">Welcome Back 👋</h3>
+    <p className="text-sm text-gray-600 mt-2 mb-8 text-center">
+      Please enter your details to log in
+    </p>
 
-        <form onSubmit={handleLogin} className="flex flex-col gap-5">
-          <Input
-            value={email}
-            onChange={({ target }) => setEmail(target.value)}
-            label="Email Address"
-            placeholder="john@example.com"
-            type="text"
-          />
-          <Input
-            value={password}
-            onChange={({ target }) => setpassword(target.value)}
-            label="Password"
-            placeholder="Min 8 characters"
-            type="password"
-          />
+    <form onSubmit={handleLogin} className="flex flex-col gap-5">
+      <Input
+        value={email}
+        onChange={({ target }) => setEmail(target.value)}
+        label="Email Address"
+        placeholder="john@example.com"
+        type="text"
+      />
+      <Input
+        value={password}
+        onChange={({ target }) => setPassword(target.value)}
+        label="Password"
+        placeholder="Min 8 characters"
+        type="password"
+      />
 
-          {error && <p className="text-red-500 text-sm">{error}</p>}
+      {error && <p className="text-red-500 text-sm">{error}</p>}
 
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-200 shadow-md"
-          >
-            LOGIN
-          </button>
+      <button
+        type="submit"
+        className="w-full bg-orange-500 text-white py-3 rounded-xl font-semibold hover:bg-orange-600 transition duration-200 shadow-lg"
+      >
+        LOGIN
+      </button>
 
-          <p className="text-sm text-center mt-6 text-gray-700">
-            Don&apos;t have an account?{" "}
-            <button
-              type="button"
-              className="text-blue-600 hover:underline font-medium"
-             onClick={() => navigate("/signup")}
-            >
-              SIGNUP
-            </button>
-          </p>
-        </form>
-      </div>
-    </div>
+      <p className="text-sm text-center mt-6 text-gray-700">
+        Don&apos;t have an account?{" "}
+        <button
+          type="button"
+          className="text-orange-500 hover:underline font-medium"
+          onClick={() => navigate("/signup")}
+        >
+          SIGNUP
+        </button>
+      </p>
+    </form>
+  </div>
+</div>
+
+  
   );
 };
 
