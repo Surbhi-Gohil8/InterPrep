@@ -69,6 +69,9 @@ const SignUp = ({ setCurrentPage }) => {
       if (err.response?.data?.message) {
         setError(err.response.data.message);
         toast.error(err.response.data.message)
+      } else if (err.userMessage) {
+        setError(err.userMessage);
+        toast.error(err.userMessage);
       } else {
         setError("Something went wrong. Please try again.");
         toast.error('Something went wrong. Please try again')

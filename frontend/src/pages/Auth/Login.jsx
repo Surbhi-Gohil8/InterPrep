@@ -46,6 +46,9 @@ const Login = ({ setCurrentPage }) => {
       if (error.response && error.response.data.message) {
         setError(error.response.data.message);
         toast.error(error.response.data.message);
+      } else if (error.userMessage) {
+        setError(error.userMessage);
+        toast.error(error.userMessage);
       } else {
         setError("Something went wrong. Please try again");
         toast.error('Something went wrong. Please try again');

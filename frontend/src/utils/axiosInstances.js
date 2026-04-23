@@ -2,7 +2,7 @@ import axios from 'axios';
 import  {BASE_URL} from "./apiPaths"
 const axiosInstance = axios.create({
     baseURL: BASE_URL,
-    timeout: 50000, // 30 seconds timeout
+    timeout: 120000, // 2 minutes timeout
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -29,8 +29,11 @@ axiosInstance.interceptors.response.use((response) => {
             console.error("Server error")
         }
     }else if(error.code === 'ECONNABORTED'){
+        error.userMessage = "Request timed out. The server may be starting up (cold start). Please try again in a few seconds.";
         console.error("Request timeout. Please try again.")
         console.log(error);
+    }else{
+        error.userMessage = "Network error: unable to reach the server. Please check the API URL and your internet connection.";
     }
     return Promise.reject(error);
 });
