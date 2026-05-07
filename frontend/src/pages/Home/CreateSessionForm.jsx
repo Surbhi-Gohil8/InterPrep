@@ -65,6 +65,9 @@ const handleCreateSession = async (e) => {
     if (err.code === "ECONNABORTED") {
       setError("Request timed out. Please try again.");
       toast.error('Request timed out. Please try again.')
+    } else if (err.response?.status === 429) {
+      setError("AI service rate limit exceeded. Please try again later.");
+      toast.error('AI service rate limit exceeded. Please try again later.')
     } else if (err.response?.data?.message) {
       setError(err.response.data.message);
       toast.error(err.response.data.message)

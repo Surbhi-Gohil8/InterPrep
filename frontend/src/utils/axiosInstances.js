@@ -25,6 +25,9 @@ axiosInstance.interceptors.response.use((response) => {
         // You can handle specific status codes here
         if (error.response.status === 401) {
             window.location.href = '/'; // Redirect to login on 401 Unauthorized
+        }else if (error.response.status === 429) {
+            console.error("API rate limit exceeded")
+            error.userMessage = "AI service rate limit exceeded. Please try again later.";
         }else if (error.response.status === 500) {
             console.error("Server error")
         }
