@@ -12,13 +12,11 @@ const {generateInterviewQuestions,generateConceptExplanation}=require("./control
 const app=express()
 
 app.use(
-    cors({
-        origin:"*",
-        methods:["GET","POST","PUT","DELETE"],
-        allowedHeaders:["Content-Type","Authorization"],
-
-    })
-)
+  cors({
+    origin: ["http://localhost:5173"],
+    credentials: true,
+  })
+);
 
 connectDB();
 //middleware
